@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ProAct'IF - Page d'Inscription</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="jumbotron">
+            &nbsp; <a href= "connexion.html"> Identification </a> &nbsp; &nbsp; &nbsp;
+            <a href= "inscription.html"> Création compte </a>
+            <div class="container text-left">
+                <h1>Vos informations personnelles</h1>
+            </div>
+        </div>
+        
+        <div class="column">
+            <div class="col-sm-4 col-sm-offset-1 text-left column"> 
+                <label for="champ-civilite">Civilité : </label> &nbsp; &nbsp; &nbsp;
+                <div id = "champ-civilite">
+                    <input type="radio" name="civilite" value="M"> M &nbsp; &nbsp;
+                    <input type="radio" name="civilite" value="Mme"> Mme &nbsp; &nbsp;
+                    <input type="radio" name="civilite" value="Mlle"> Mlle &nbsp; &nbsp; <br/> <br/>
+                </div>
+                    
+                <div class="form-group">
+                    <label for="prenom">Prénom :</label>
+                    <input id='champ-prenom' type="text" class="form-control" name='nom'>
+                </div>
+                <div class="form-group">
+                    <label for="nom">Nom :</label>
+                    <input id='champ-nom' type="text" class="form-control" name='prenom'>
+                </div>
+                <div class="form-group">
+                    <label> Date de Naissance </label>
+                    <input id='champ-date' type="date" class="form-control" name="anniversaire">
+                </div>
+
+                <br/><br/><br/>
+            </div>
+        </div>
+        <div class="column">
+            <div class="col-sm-4 col-sm-offset-1 text-left column"> 
+                <div class="form-group">
+                    <label for="mail">Mail :</label>
+                    <input id='champ-mail' type="text" class="form-control" name='mail'>
+                </div>
+                <div class="form-group">
+                    <label for="mail">N° Tél :</label>
+                    <input id='champ-tel' type="text" class="form-control" name='tel'>
+                </div>
+                <div class="form-group">
+                    <label for="mail">Adresse :</label>
+                    <input id='adresse' type="text" class="form-control" name='adresse'> <br/>
+                    <input id='adresse2' type="text" class="form-control" name='adresse'> <br/>
+                    <input id='adresse3' type="text" class="form-control" name='adresse'> <br/>
+                </div>
+
+                <button type="button" class="btn btn-info" id="bouton-inscription">INSCRIPTION</button>
+                <div id='message' style='color: red;'></div>
+            </div>
+        </div>
+        <script>
+            
+        function connexion() {
+            var nom = $('#champ-nom').val();
+            var prenom = $('#champ-prenom').val();
+            var civilite = $('#champ-civilite :checked').val();
+            var date = $('#champ-date').val();
+            var mail = $('#champ-mail').val();
+            var tel = $('#champ-tel').val();
+            var adresse = $('#adresse').val() + $('#adresse2').val()+ $('#adresse3').val() ;
+
+            $.ajax({
+                url: './ActionServlet',
+                method: 'POST',
+                data: {
+                    action: 'inscription',
+                    nom : nom,
+                    prenom : prenom,
+                    civilite : civilite,
+                    date : date,
+                    mail : mail,
+                    tel : tel,
+                    adresse : adresse
+                },
+                dataType: 'json'
+            }).done(function (data) {
+                if(data.code==true){
+                    console.log('INSCRIIIIIT!!!!');
+                    alert("Votre inscription a bien été prise en compte.");
+                    window.location = "connexion.html";
+                }else{
+                    alert("Cette adresse e-mail est déjà utilisée, veuillez en saisir une autre.");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            
+            // ajout d'un "handler" sur le clic du bouton de connexion
+            $('#bouton-inscription').on('click', function () {
+                // affichage pour debugage dans la console javascript du navigateur
+                console.log('Click sur le bouton "inscription"');
+                // appel de la fonction connexion
+                connexion();
+            });
+        });
+    </script>
+
+    </body>
+</html>

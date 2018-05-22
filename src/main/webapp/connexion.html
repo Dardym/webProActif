@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ProAct'IF - Page d'Inscription</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+            &nbsp; <a href= "connexion.html"> Identification </a> &nbsp; &nbsp; &nbsp;
+            <a href= "inscription.html"> Création compte </a>
+            <div class="container text-center">
+                 <img src ="http://pro-actif.org/wp-content/uploads/2017/02/logo-couleur-proactif.jpg" />
+                 <br/>
+            </div>
+        
+        <div class="column">
+            <div class="col-sm-4 col-sm-offset-4 text-left column"> 
+                <div class="form-group">
+                    <label for="mail">Adresse mail </label>
+                    <input id='champ-login' type="text" class="form-control" name='nom'>
+                </div>
+                <div class="form-group">
+                    <label for="mdp">Mot de passe </label>
+                    <input type="password" id='champ-password'  class="form-control" name='mdp'>
+                </div>
+                <div class="col-sm-4 col-sm-offset-8 text-right column"> 
+                <button type="button" class="btn btn-info" id="bouton-connexion">VALIDER</button>    
+                </div>
+                <br/><br/><br/>
+            </div>
+        </div>
+        
+        <script>
+             function connexion() {
+                var champLogin = $('#champ-login').val();
+                var champPassword = $('#champ-password').val();
+
+                $('#message').html('Connexion en cours...');
+
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        action: 'login',
+                        login: champLogin,
+                        password: champPassword
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                   if(data.typeConnexion == "echec"){
+                        $('#message').html('Echec de la connexion');
+                        console.log('c est un échec');
+                    }
+                    else if(data.typeConnexion == "client"){
+                        console.log('c est un client');
+                        window.location = "creerDemande.html";
+                    }
+                    else if(data.typeConnexion == "employe"){
+                        console.log('c est un employe');
+                        window.location = "tableauDeBord.html";
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#bouton-connexion').on('click', function () {
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Se Connecter"');
+                    // appel de la fonction connexion
+                    connexion();
+                });
+            });
+        </script>
+        
+        
+    </body>
+</html>

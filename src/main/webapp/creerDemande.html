@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+     <head>
+        <title>ProAct'IF - Page demande</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+
+        <button class="tablink" onclick="openPage('Creation', this, 'green')" id="defaultOpen">Créer une demande</button>
+        <button class="tablink" onclick="openPage('Consultation', this, 'green')" id ="bouton-consulter">Demande en cours</button>
+        <button class="tablink" onclick="openPage('Historique', this, 'green')" id ="bouton-historique">Historique</button>
+        
+        <div id="Creation" class="tabcontent">
+                <div class="jumbotron">
+                    <div class="container text-left">
+                        <h1>Créer une demande</h1>
+                    </div>
+                    <div class="container text-right">
+                        <a href= "pageAccueil.html"> Déconnexion </a>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-sm-offset-1 text-left column"> 
+                    <div class = "row">
+                    <label for="type">Type : </label> <br/> 
+                    </div>
+                    <div class = "row">
+                    <input id = "incident-type" type="radio" name="type" value="incident"> Incident <br/> 
+                    <input id = "incident-type" type="radio" name="type" value="animal"> Animal <br/> 
+                    <input id = "incident-type" type="radio" name="type" value="livraison"> Livraison <br/> <br/> 
+                    </div>
+                    <div class = "row">
+                    <label for="Heure">Heure :</label>
+                                <input id="champ-heure" type="time">
+                    </div>
+                    <div class = "row">
+                    <label for="description">Description : </label>
+                    <textarea id="champ-description" name="textarea" rows="12" cols="90"></textarea>
+                    </div>
+                </div>
+
+            <div class ="col-sm-6 col-sm-offset-0 text-left column">
+                    <input id='animal' type="text" class="form-control" name='animal'> <br/>
+            </div>
+
+            <div class ="col-sm-3 col-sm-offset-0 text-left column">
+                    <input id='objet' type="text" class="form-control" name='objet'>  &nbsp; &nbsp;
+            </div>
+
+            <div class ="col-sm-3 col-sm-offset-0 text-left column">
+                    <input id='entreprise' type="text" class="form-control" name='entreprise'><br/> <br/> <br/><br/>  <br/><br/>    
+            </div>
+
+            <div class ="col-sm-3 col-sm-offset-2 text-left column">
+                <div class ="row">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="Annulation">Annuler</button> <br/><br/>  
+                </div>
+                <div class ="row">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="bouton-demande">Valider</button>   
+                </div> 
+            </div>
+
+        </div>
+
+        <div id="Consultation" class="tabcontent">
+                <div class="jumbotron">
+                    <div id = "tableauConsultation" class="container text-left">
+                        <h1>Consulter les demandes</h1>
+                    </div>
+                     <div class="container text-right">
+                        <a href= "pageAccueil.html"> Déconnexion </a>
+                    </div>
+                </div>
+                <label id="nombreDeTache"> </label> <label> demande(s) en cours</label> <br/> 
+                 <ul id="tableDemandeEnCours">
+                </ul>
+        </div>
+
+        <div id="Historique" class="tabcontent">
+                <div class="jumbotron">
+                    <div class="container text-left">
+                        <h1>Consulter l'historique des demandes</h1>
+                    </div>
+                     <div class="container text-right">
+                        <a href= "pageAccueil.html"> Déconnexion </a>
+                    </div>
+                </div>
+                <div class="col-sm-10 col-sm-offset-1 text-left column"> 
+                    <div class = "row">
+                    <label for="historique-table">Historique des demandes : </label> <br/> 
+                    </div>
+                    <div class = "row">
+                    <table id="tableHistorique">
+                        <!--<tr>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Description</th>-->
+                    </table>
+                    <br/><br/>
+                </div>
+                </div>
+                <div class="col-sm-4 col-sm-offset-1 text-left column">
+                            <h3>Détail</h3>
+                                 <table id ="table-detail" name = "table">
+                                    <tr>
+                                        <th>Type<br/><br/><br/></th>
+                                        <td id = "case-type" name="case"></td>
+                                        <th>Date</th>
+                                        <td id ="case-date" name="case"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Employe<br/><br/><br/></th>
+                                        <td id="case-employe" name="case"></td>
+                                        <th>Heure<br/><br/><br/></th>
+                                        <td id="case-heure" name="case"></td>
+                                    </tr>
+                                </table>
+                        <br/>
+                        <label for="commentaire">Description : </label>
+                        <label id="case-description" name="textarea" rows="5" cols="70"></label> <br/><br/>
+                </div> 
+                <div class="col-sm-4 col-sm-offset-1 text-left column">
+                    <table id="table-autres" name ="table">
+                        <tr>
+                            <th>Statut<br/><br/><br/></th>
+                            <td id="case-statut" name="case"></td>
+                        </tr>
+                        <tr>
+                            <th>Heure de fin<br/><br/><br/></th>
+                            <td id="case-heureDeFin" name="case"></td>
+                        </tr>
+                        <tr>
+                            <th>Commentaire<br/><br/><br/></th>
+                            <td id="case-commentaire" name="case"></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <button type="button" onclick="openPage('Creation', defaultOpen, 'green')" class="btn btn-primary btn-lg btn-block" id="creation">Créer une demande</button>  
+                </div>
+            </div>
+
+                <div id="detail" class="tabcontent">
+                    <div class="col-sm-4 col-sm-offset-1 text-left column"> 
+                        <table>
+                            <tr>
+                                <th>Type<br/><br/><br/></th>
+                                <td id="case-type2">data</td>
+                                <th>Date<br/><br/><br/></th>
+                                <td id ="case-date2">data</td>
+                            </tr>
+                            <tr>
+                                <th>Employé<br/><br/></th>
+                                <td id="case-employe2">data</td>
+                                <th>Heure<br/><br/><br/></th>
+                                <td id="case-heure2">data</td>
+                            </tr>
+                        </table>
+                        <br/><br/>
+                        <table>
+                             <th>Description<br/><br/><br/></th>
+                             <td><textarea id="case-description2" name="textarea" rows="5" cols="70"></textarea></td>
+                        </table>
+                    </div>
+        
+                    <div class ="col-sm-3 col-sm-offset-2 text-left column">
+                        <div class ="row">
+                            <button type="button" onclick="showStuff2()" class="btn btn-primary btn-lg btn-block" id="Annulation">Retour</button> <br/>  
+                        </div>
+                        <div class ="row">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" id="bouton-annuler">Annuler la demande</button>   <br/><br/><br/><br/>  
+                        </div> 
+                         <div class ="row">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" id="bouton-mettreAJour">Mettre à jour</button>   
+                        </div> 
+                    </div>
+                    
+                </div>
+                    
+         <script>
+            function openPage(pageName,elmnt,color) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablink");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].style.backgroundColor = "";
+                }
+                document.getElementById(pageName).style.display = "block";
+                elmnt.style.backgroundColor = color;
+
+            }
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+        
+        <script>
+            //créer tableaux globaux pour enregistrer les données des requêtes.
+            var tab_Historique = new Array();
+            var tab_EnCours = new Array();
+            var historique_bool = false;
+            var idEnCours;
+
+                function creerDemande() {
+                    var typeIncident = $('#incident-type:checked').val();
+                    var champHeure = $('#champ-heure').val();
+                    var champDescription =$('#champ-description').val();
+                    var champEntreprise = $('#entreprise').val();
+                    var champObjet =  $('#objet').val();
+                    var champAnimal =  $('#animal').val();
+
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'creerDemande',
+                            type : typeIncident,
+                            description : champDescription,
+                            date : champHeure,
+                            entreprise : champEntreprise,
+                            objet : champObjet,
+                            animal : champAnimal
+
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                        if(data.employeDispo == false){
+                            $('#message').html('erreur sur la demande');
+                            alert("Aucun employe n'est disponible pour traiter votre requête.");
+                        } else{
+                            alert("Votre demande a été prise en charge.");
+                        }
+
+                    });
+                }
+
+                $(document).ready(function () {
+                    // ajout d'un "handler" sur le clic du bouton de connexion
+                    $('#defaultOpen').on('click', function () {
+                        showStuff2();
+                    });
+
+                    $('#bouton-demande').on('click', function () {
+                        // affichage pour debugage dans la console javascript du navigateur
+                        console.log('Click sur le bouton "Valider la demande"');
+                        // appel de la fonction connexion
+                        creerDemande();
+                    });
+
+                    $('#bouton-consulter' ).on('click', function () {
+                        console.log('Click sur le bouton "consulter"');
+                        consultation();
+                        console.log('je sors de consultation');
+                        showStuff2();
+                    });
+
+                     $('#bouton-historique' ).on('click', function () {
+                        console.log('Click sur le bouton "historique"');
+                        historique();
+                        showStuff2();
+                    });
+
+                    $('#bouton-annuler' ).on('click', function () {
+                        console.log('Click sur le bouton "annuler"');
+                        annuler();
+                        showStuff2();
+                    });
+
+                    $('#bouton-mettreAJour' ).on('click', function () {
+                        console.log('Click sur le bouton "mettreAJour"');
+                        mettreAJour();
+                        showStuff2();
+                    });
+
+                });
+
+                function annuler() {
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'annuler',
+                            id: idEnCours
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                       alert("Votre demande a bien été annulée.");
+                       document.getElementById("defaultOpen").click();
+                    });
+                }
+
+                function mettreAJour() {
+                    var description = $('#case-description2').val();
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'mettre a jour',
+                            id: idEnCours,
+                            description: description
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                       alert("Votre demande a bien été mise à jour.");
+                       document.getElementById("defaultOpen").click();
+                    });
+                }
+
+                function consultation() {
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'consultation'
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                        var table = $('#tableDemandeEnCours');
+                        var demandes = data.demandes;
+                        $('#nombreDeTache').empty();
+                        $('#nombreDeTache').append('Vous avez actuellement '+ demandes.length);
+                        table.empty();
+                        tab_EnCours = [];
+                        console.log(data);
+                        $.each(demandes,function(i,di){
+                            var formInput = '<th><button type="button"'+ 'class="btn btn-primary btn-lg"  id="bouton-' + di.id + '" onclick=cliqueEnCours("bouton-' + di.id + '")>' + '<label>'+ di.employePrenom + ' ' 
+                                            + di.employeNom + '</label>' + '</br>' + '<label>'+ di.heure + '</label>' + '</button>  </th>';
+                            table.append(formInput);
+                            tab_EnCours.push(di);
+                            
+                        });
+
+                    });
+                }
+
+                function cliqueHistorique(unId) {
+                    var table = document.getElementById("table-historique");
+                    var type = document.getElementById("case-type");
+                    type.textContent = "";
+                    var date = document.getElementById("case-date");
+                    date.textContent = "";
+                    var employe = document.getElementById("case-employe");
+                    employe.textContent = "";
+                    var heure = document.getElementById("case-heure");
+                    heure.textContent = "";
+                    var description = document.getElementById("case-description");
+                    description.textContent = "";
+                    var statut = document.getElementById("case-statut");
+                    statut.textContent = "";
+                    var heureDeFin = document.getElementById("case-heureDeFin");
+                    heureDeFin.textContent = "";
+                    var commentaire = document.getElementById("case-commentaire");
+                    commentaire.textContent = "";
+                    
+                    for(var i = 0;i<tab_Historique.length;i++){
+                        if(("ligne-"+tab_Historique[i].id) == unId){
+                            type.append(tab_Historique[i].type);
+                            date.append(tab_Historique[i].date);
+                            employe.append(tab_Historique[i].employeNom + " "+ tab_Historique[i].employePrenom);
+                            heure.append(tab_Historique[i].heure);
+                            description.append(tab_Historique[i].description);
+                            statut.append(tab_Historique[i].statut);
+                            heureDeFin.append(tab_Historique[i].heureDeFin);
+                            commentaire.append(tab_Historique[i].commentaire);
+                            break;
+                        }
+                    }
+
+                }
+
+                function cliqueEnCours(unId) {
+                    idEnCours = unId.substring(7,unId.length);
+                    var type = document.getElementById("case-type2");
+                    type.textContent = "";
+                    var date = document.getElementById("case-date2");
+                    date.textContent = "";
+                    var employe = document.getElementById("case-employe2");
+                    employe.textContent = "";
+                    var heure = document.getElementById("case-heure2");
+                    heure.textContent = "";
+                    var description = document.getElementById("case-description2");
+                    description.textContent = "";
+                    
+                    for(var i = 0;i<tab_EnCours.length;i++){
+                        if(("bouton-"+tab_EnCours[i].id) == unId){
+                            type.append(tab_EnCours[i].type);
+                            date.append(tab_EnCours[i].date);
+                            employe.append(tab_EnCours[i].employeNom + " "+ tab_EnCours[i].employePrenom);
+                            heure.append(tab_EnCours[i].heure);
+                            description.append(tab_EnCours[i].description);
+                            break;
+                        }
+                    }
+                    showStuff();
+
+                }
+
+
+                function historique() {
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'historique'
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                        console.log(data);
+                        var table = $('#tableHistorique');
+                        var demandes = data.demandes;
+                        table.empty();
+                        tab_Historique = [];
+                        $.each(demandes,function(i,di){
+                            var formInput = '<tr class = "ligne" id="ligne-'+ di.id +'"'+'onclick=cliqueHistorique("ligne-' + di.id + '")' + '><th>' + di.type + '</th><th>' + di.date + '</th><th>' + di.description + '</th></tr>';
+                            table.append(formInput);
+                            tab_Historique.push(di);
+                        });
+                    });
+                
+                }
+                function showStuff() {
+                    document.getElementById('detail').style.display = 'block';
+                    // hide the lorem ipsum text
+                    document.getElementById('tableDemandeEnCours').style.display = 'none';
+                    // hide the link
+                }
+
+                function showStuff2(){
+                    document.getElementById('tableDemandeEnCours').style.display = 'block';
+                    // hide the lorem ipsum text
+                    document.getElementById('detail').style.display = 'none';
+                }
+
+        </script>
+        
+    </body>
+</html>

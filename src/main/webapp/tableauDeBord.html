@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ProActif - Tableau de Bord</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    </head>
+
+
+    <body>
+
+        <button class="tablink" onclick="openPage('Intervention', this, 'green')" id="defaultOpen">Intervention à réaliser</button>
+        <button class="tablink" onclick="openPage('Carte', this, 'green')" id="bouton-carte"> Tableau de bord cartographique</button>
+
+
+        <div id="Intervention" class="tabcontent">
+             <nav class="jumbotron">
+                <div class="container text-center">
+                        <h1> Intervention à réaliser </h1> &nbsp; &nbsp; &nbsp;
+                </div>
+
+                <div class="container text-right">
+                    <a href= "pageAccueil.html"> Déconnexion </a>
+                </div>
+            </nav><br>
+
+            <div class="container">
+                    <div class="col-sm-4 col-sm-offset-1 text-left column">
+                        <div class="toctitle" lang="fr" dir="ltr" xml:lang="fr">
+                            <h3>Détail</h3>
+                                 <table border="1">
+                                    <tr>
+                                        <th>Type<br/><br/><br/></th>
+                                        <td id="case-type2"></td>
+                                        <th>Date</th>
+                                        <td id="case-date2"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Client<br/><br/><br/></th>
+                                        <td id="case-client2">  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Description<br/><br/><br/></th>
+                                        <td id="case-description2"> </td>
+                                    </tr>
+                                </table>
+                        </div>
+                    </div> 
+                    <div class="col-sm-4 col-sm-offset-1 text-left column">
+                        <label for="statut">Statut : </label> &nbsp; &nbsp; &nbsp;
+                        <div id="champ-statut">
+                            <input type="radio" name="statut" value="Termine"> Terminé &nbsp; &nbsp;
+                            <input type="radio" name="statut" value="Probleme"> Problème &nbsp; &nbsp; <br/> <br/>
+                        </div>
+                        <label for="commentaire">Commentaire : </label>
+                        <textarea id="champ-commentaire" name="textarea" rows="5" cols="70"></textarea> <br/><br/>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="bouton-cloturer">Clôturer la demande</button>   
+                    </div>
+            </div>
+        </div>
+
+        <div id="Carte" class="tabcontent">
+
+            <nav class="jumbotron">
+                <div class="container text-center">
+                        <h1> Tableau de bord cartographique </h1> &nbsp; &nbsp; &nbsp;
+                </div>
+                <div class="container text-right">
+                    <a href= "pageAccueil.html"> Déconnexion </a>
+                </div>
+            </nav><br>
+
+            <div class="container">
+                    <div class="col-sm-7 text-center">
+                            <div id="map"></div>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-1 text-left column">
+                        <div class="toctitle" lang="fr" dir="ltr" xml:lang="fr">
+                            <h3>Détail</h3>
+                                 <table border="1">
+                                    <tr>
+                                        <th>Type<br/><br/><br/></th>
+                                        <td id="case-type">  </td>
+                                        <th>Heure</th>
+                                        <td id="case-heure">  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Client<br/><br/><br/></th>
+                                        <td id="case-client">  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Description<br/><br/><br/></th>
+                                        <td id="case-description">  </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Statut<br/><br/><br/></th>
+                                        <td id="case-statut">  </td>
+                                    </tr>
+                                </table>
+                        </div>
+                    </div>
+            </div>
+            <br/><br/>
+            <div class="container">
+                <p>Incident</p>
+                <img src="cle_anglaise.png" width="32" height="32" >
+                <p>Animal</p>
+                <img src="patte_chien.png" width="32" height="32" >
+                <p>Livraison</p>
+                <img src="camion.png" width="32" height="32" >
+            </div>
+        </div>
+
+        <script>
+            var tab_Jour = new Array();
+            var idEnCours = null;
+            var googleMapInstance = null;
+
+            function makeInfoWindow(title) {
+                return new google.maps.InfoWindow({
+                    content: '<div>Information: ' + title + '</div>'
+                });
+            }
+
+            function attachInfoWindow(marker, infowindow, htmlDescription) {
+                marker.addListener('click', function () {
+
+                    infowindow.setContent(htmlDescription);
+                    infowindow.open(googleMapInstance, this);
+                });
+            }
+
+            function openPage(pageName,elmnt,color) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablink");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].style.backgroundColor = "";
+                }
+                document.getElementById(pageName).style.display = "block";
+                elmnt.style.backgroundColor = color;
+
+            }
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+
+            $(document).ready(function () {
+                    // ajout d'un "handler" sur le clic du bouton de connexion
+                    $('#bouton-carte').on('click', function () {
+                        // affichage pour debugage dans la console javascript du navigateur
+                        console.log('Click sur le bouton "carte"');
+                        // appel de la fonction connexion
+                        demandeJour();
+                    });
+
+                    $('#defaultOpen').on('click', function () {
+                        // affichage pour debugage dans la console javascript du navigateur
+                        console.log('Click sur le bouton "default"');
+                        // appel de la fonction connexion
+                        afficherCloture();
+                    });
+
+                    $('#bouton-cloturer').on('click', function () {
+                        // affichage pour debugage dans la console javascript du navigateur
+                        console.log('Click sur le bouton "cloturer"');
+                        // appel de la fonction connexion
+                        cloturer();
+                    });
+            });
+            
+            function demandeJour() {
+
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'carte'
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+
+                        var demandesJour = data.demandes;
+                        var iconImage = null; // marker par défaut
+                        tab_Jour = [];
+                        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+                        $.each(demandesJour,function(i,di){
+                            tab_Jour.push(di);
+                            //on gère l'icone
+                            if(di.type == "Incident"){
+                                iconImage = {url: './cle_anglaise.png', scaledSize: new google.maps.Size(32, 32)}
+                            } else if (di.type == "Animal"){
+                                iconImage = {url: './patte_chien.png', scaledSize: new google.maps.Size(32, 32)}
+                            } else if (di.type == "Livraison"){
+                                iconImage = {url: './camion.png', scaledSize: new google.maps.Size(32, 32)}
+                            }
+
+                            var marker = new google.maps.Marker({
+                                map: googleMapInstance,
+                                position: {lat: di.lat, lng: di.lng},
+                                title: di.type,
+                                icone : iconBase+ iconImage
+                            });
+
+                            marker.addListener('click', function () {
+                                idEnCours = di.id;
+                                var type = document.getElementById("case-type");
+                                type.textContent = "";
+                                var client = document.getElementById("case-client");
+                                client.textContent = "";
+                                var heure = document.getElementById("case-heure");
+                                heure.textContent = "";
+                                var description = document.getElementById("case-description");
+                                description.textContent = "";
+                                var statut = document.getElementById("case-statut");
+                                statut.textContent = "";
+                                
+                                for(var i = 0;i<tab_Jour.length;i++){
+                                    if(tab_Jour[i].id == di.id){
+                                        type.append(tab_Jour[i].type);
+                                        client.append(tab_Jour[i].clientNom + " "+ tab_Jour[i].clientPrenom);
+                                        heure.append(tab_Jour[i].heure);
+                                        statut.append(tab_Jour[i].statut);
+                                        description.append(tab_Jour[i].description);
+                                        break;
+                                    }
+                                }
+                            });
+
+
+                        });
+
+                    });
+            }
+
+            function afficherCloture(){
+                if(idEnCours!=null){
+                    var type = document.getElementById("case-type2");
+                    type.textContent = "";
+                    var client = document.getElementById("case-client2");
+                    client.textContent = "";
+                    var description = document.getElementById("case-description2");
+                    description.textContent = "";
+                    var date = document.getElementById("case-date2");
+                    date.textContent = "";
+
+                    for(var i = 0;i<tab_Jour.length;i++){
+                        if(tab_Jour[i].id == idEnCours){
+                            type.append(tab_Jour[i].type);
+                            client.append(tab_Jour[i].clientNom + " "+ tab_Jour[i].clientPrenom);
+                            date.append(tab_Jour[i].date);
+                            description.append(tab_Jour[i].description);
+                            break;
+                        }
+                    }    
+            }}
+
+            function cloturer(){
+                var statut = $('#champ-statut :checked').val();
+                var commentaire = $('#champ-commentaire').val();
+                var id = idEnCours;
+                $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'cloturer',
+                            id : id,
+                            statut : statut,
+                            commentaire : commentaire
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                        alert("Votre demande a été cloturée.");
+                        idEnCours = null;
+                        demandeJour();
+                        document.getElementById("bouton-carte").click();
+                    });
+            }
+
+            function initMap() {
+                
+                console.log("JE suis dans init !");
+
+                var mapOptions = {
+                center: new google.maps.LatLng(45.75, 4.85),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+                }
+                googleMapInstance = new google.maps.Map(document.getElementById("map"), mapOptions);
+            }
+
+        </script>
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAklw96N9rLd93ubr-F04CN7qi2ryKayAc&callback=initMap"></script>
+
+    </body>
+</html>

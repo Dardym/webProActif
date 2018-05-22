@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ProAct'IF - Page d'Inscription</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewpor " content="width=device-width">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        
+        <button class="tablink" onclick="openPage('Connexion', this, 'green')" id="defaultOpen">Connexion</button>
+        <button class="tablink" onclick="openPage('Inscription', this, 'green')">Inscription</button> <br/><br/><br/>
+
+        <div id="Connexion" class="tabcontent">
+        <div class="container text-center">
+            <img src ="./image.png" />
+            <br/>
+        </div>
+        <div class="column">
+            <div class="col-sm-4 col-sm-offset-4 text-left column"> 
+                <div class="form-group">
+                    <label for="mail">Adresse mail </label>
+                    <input id='champ-login' type="text" class="form-control" name='mail'>
+                </div>
+                <div class="form-group">
+                    <label for="mdp">Mot de passe </label>
+                    <input type="password" id='champ-password' class="form-control" name='mdp'>
+                </div>
+                <div class="col-sm-4 col-sm-offset-8 text-right column"> 
+                <button type="button" class="btn btn-info" id="bouton-connexion">Valider</button>    
+                </div>
+                <br/><br/><br/>
+            </div>
+        </div>
+        </div>
+
+
+        <div id="Inscription" class="tabcontent">
+        <div class="jumbotron">
+            <div class="container text-left">
+                <h1>Vos informations personnelles</h1>
+            </div>
+        </div>
+          <div class="column"> 
+            <div class="col-sm-4 col-sm-offset-1 text-left column"> 
+                <label for="civilite">Civilité : </label> &nbsp; &nbsp; &nbsp;
+                <div id = "champ-civilite">
+                    <input type="radio" name="civilite" value="M"> M &nbsp; &nbsp;
+                    <input type="radio" name="civilite" value="Mme"> Mme &nbsp; &nbsp;
+                    <input type="radio" name="civilite" value="Mlle"> Mlle &nbsp; &nbsp; <br/> <br/>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom :</label>
+                    <input id='champ-prenom' type="text" class="form-control" name='prenom'>
+                </div>
+                <div class="form-group">
+                    <label for="nom">Nom :</label>
+                    <input id='champ-nom' type="text" class="form-control" name='nom'>
+                </div>
+                <div class="form-group">
+                    <label> Date de Naissance </label>
+                    <input id='champ-date' type="date" class="form-control" name="anniversaire">
+                </div>
+
+                <br/><br/><br/>
+            </div>
+        </div>
+        <div class="column">
+            <div class="col-sm-4 col-sm-offset-1 text-left column"> 
+                <div class="form-group">
+                    <label for="mail">Mail :</label>
+                    <input id='champ-mail' type="text" class="form-control" name='mail'>
+                </div>
+                <div class="form-group">
+                    <label for="tel">N° Tél :</label>
+                    <input id='champ-tel' type="text" class="form-control" name='tel'>
+                </div>
+                <div class="form-group">
+                    <label for="mail">Adresse :</label>
+                    <input id='adresse' type="text" class="form-control" name='adresse'> <br/>
+                    <input id='adresse2' type="text" class="form-control" name='adresse'> <br/>
+                    <input id='adresse3' type="text" class="form-control" name='adresse'> <br/>
+                </div>
+
+                <button type="button" class="btn btn-info" id="bouton-inscription">S'inscrire</button>
+                <div id='message' style='color: green;'></div>
+            </div>
+        </div>
+        </div>
+
+        <script>
+            function openPage(pageName,elmnt,color) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablink");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].style.backgroundColor = "";
+                }
+                document.getElementById(pageName).style.display = "block";
+                elmnt.style.backgroundColor = color;
+
+            }
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+        
+        <script>        
+            function inscription() {
+                var nom = $('#champ-nom').val();
+                var prenom = $('#champ-prenom').val();
+                var civilite = $('#champ-civilite :checked').val();
+                var date = $('#champ-date').val();
+                var mail = $('#champ-mail').val();
+                var tel = $('#champ-tel').val();
+                var adresse = $('#adresse').val() + $('#adresse2').val()+ $('#adresse3').val() ;
+
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        action: 'inscription',
+                        nom : nom,
+                        prenom : prenom,
+                        civilite : civilite,
+                        date : date,
+                        mail : mail,
+                        tel : tel,
+                        adresse : adresse
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    if(data.code==true){
+                        console.log('INSCRIIIIIT!!!!');
+                        alert("Votre inscription a bien été prise en compte.");
+                    }else{
+                        alert("Cette adresse e-mail est déjà utilisée, veuillez en saisir une autre.");
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#bouton-connexion').on('click', function () {
+                        // affichage pour debugage dans la console javascript du navigateur
+                        console.log('Click sur le bouton "Se Connecter"');
+                        // appel de la fonction connexion
+                        connexion();
+                });
+                
+                // ajout d'un "handler" sur le clic du bouton de connexion
+                $('#bouton-inscription').on('click', function () {
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "inscription"');
+                    // appel de la fonction connexion
+                    inscription();
+                    document.getElementById("defaultOpen").click();
+                });
+            });
+        </script>
+
+
+          <script>
+                function connexion() {
+                    var champLogin = $('#champ-login').val();
+                    var champPassword = $('#champ-password').val();
+
+                    $('#message').html('Connexion en cours...');
+
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            action: 'login',
+                            login: champLogin,
+                            password: champPassword
+                        },
+                        dataType: 'json'
+                    }).done(function (data) {
+                       if(data.typeConnexion == "echec"){
+                            $('#message').html('Echec de la connexion');
+                            console.log('c est un échec');
+                        }
+                        else if(data.typeConnexion == "client"){
+                            console.log('c est un client');
+                            window.location = "creerDemande.html";
+                        }
+                        else if(data.typeConnexion == "employe"){
+                            console.log('c est un employe');
+                            window.location = "tableauDeBord.html";
+                        }
+                    });
+                }
+            </script>
+
+    </body>
+</html>

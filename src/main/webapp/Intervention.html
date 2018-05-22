@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Intervention</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Intervention à réaliser</h1>
+        <h2>Détails</h2>
+        <table>
+            <tr>
+                <td>Type</td>
+                <td>data</td>
+                <td>Date</td>
+                <td>data</td>
+            </tr>
+            <tr>
+                <td>Clent</td>
+                <td>data</td>
+                <td>Heure</td>
+                <td>data</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+            </tr>
+        </table>
+        <form>
+            <p>Statut :</p>
+            <div>
+                <input type="radio" id="radio-termine"
+                 name="état" value="termine">
+                <label for="radio-termine">Terminé</label>
+
+                <input type="radio" id="radio-Problème"
+                 name="état" value="problème">
+                <label for="radio-Problème">Prblème</label>
+            </div>
+            <div>
+                <p>Commantaire</p>
+                <input type="text" id ="commentaire">
+            </div>
+            <div>
+                <button type="submit">Envoyer</button>
+            </div>
+        </form>
+        <br>
+        <input type ="button" id ="button-cloturer" value="Clôturer la demande">
+    </body>
+</html>
