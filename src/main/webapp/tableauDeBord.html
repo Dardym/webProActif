@@ -33,7 +33,7 @@
                     <div class="col-sm-4 col-sm-offset-1 text-left column">
                         <div class="toctitle" lang="fr" dir="ltr" xml:lang="fr">
                             <h3>Détail</h3>
-                                 <table border="1">
+                                 <table>
                                     <tr>
                                         <th>Type<br/><br/><br/></th>
                                         <td id="case-type2"></td>
@@ -82,7 +82,7 @@
                     <div class="col-sm-4 col-sm-offset-1 text-left column">
                         <div class="toctitle" lang="fr" dir="ltr" xml:lang="fr">
                             <h3>Détail</h3>
-                                 <table border="1">
+                                 <table >
                                     <tr>
                                         <th>Type<br/><br/><br/></th>
                                         <td id="case-type">  </td>
@@ -206,7 +206,7 @@
                                 map: googleMapInstance,
                                 position: {lat: di.lat, lng: di.lng},
                                 title: di.type,
-                                icone : iconBase+ iconImage
+                                icon : iconImage
                             });
 
                             marker.addListener('click', function () {
@@ -285,13 +285,10 @@
             }
 
             function initMap() {
-                
-                console.log("JE suis dans init !");
 
                 var mapOptions = {
                 center: new google.maps.LatLng(45.75, 4.85),
-                zoom: 10,
-                mapTypeId: google.maps.MapTypeId.HYBRID
+                zoom: 10
                 }
                 googleMapInstance = new google.maps.Map(document.getElementById("map"), mapOptions);
             }
