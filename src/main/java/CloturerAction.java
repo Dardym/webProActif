@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 public class CloturerAction extends Action {
     @Override
     public void execute(HttpServletRequest request){
-        System.out.println("JE REEEEEEEEEEEEEENTR DE CLOTURER ACTION ");
-        System.out.println(request.getParameter("commentaire"));
         DemandeIntervention di = serviceProActif.trouverDemande(Long.valueOf(request.getParameter("id")));
         System.out.println("C'est CLOTURER DEMANDE QUI BUG SA RACE");
         String s = request.getParameter("statut");
@@ -32,9 +30,7 @@ public class CloturerAction extends Action {
             }
         String commentaire = request.getParameter("commentaire");
         Date heureDeFin = new Date();
-        
         serviceProActif.cloturerDemande(di, statut, commentaire, heureDeFin);
-        System.out.println("JE SOOOOOOOORS DE CLOTURER ACTION");
     }
     
 }

@@ -177,9 +177,9 @@ public class ActionServlet extends HttpServlet {
             if(di.getHeureFin()!=null){
                 heureFinString = sdfHeure.format(di.getHeureFin());
             }
-            
+            System.out.println(heureFinString);
             jsonDI.addProperty("heure",heureString);
-            jsonDI.addProperty("heureFin",heureFinString);
+            jsonDI.addProperty("heureDeFin",heureFinString);
             jsonDI.addProperty("date",dateString);
             jsonDI.addProperty("employeNom",di.getEmploye().getNom());
             jsonDI.addProperty("employePrenom",di.getEmploye().getPrenom());

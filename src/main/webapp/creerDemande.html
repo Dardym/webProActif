@@ -371,6 +371,7 @@
                             break;
                         }
                     }
+                    changeColor(unId);
 
                 }
 
@@ -424,6 +425,15 @@
                     });
                 
                 }
+
+                function changeColor(id) {
+                    var table = document.getElementById("tableHistorique");
+                    for (var i = 0, row; row = table.rows[i]; i++) {
+                        table.rows[i].style.backgroundColor = "";
+                    }
+                    document.getElementById(id).style.backgroundColor = "lightblue";
+                }
+
                 function showStuff() {
                     document.getElementById('detail').style.display = 'block';
                     // hide the lorem ipsum text
