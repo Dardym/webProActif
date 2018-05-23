@@ -18,7 +18,6 @@ public class MettreAJourAction extends Action {
         DemandeIntervention di = serviceProActif.trouverDemande(Long.valueOf(request.getParameter("id")));
         String description = request.getParameter("description");
         di.setDescription(description);
-        System.out.println("LA DESCRIPTIOOOOOOOOOOON : "+di.getDescription());
         serviceProActif.mettreAJourDemande(di);
     }
     

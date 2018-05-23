@@ -18,7 +18,6 @@ public class CloturerAction extends Action {
     @Override
     public void execute(HttpServletRequest request){
         DemandeIntervention di = serviceProActif.trouverDemande(Long.valueOf(request.getParameter("id")));
-        System.out.println("C'est CLOTURER DEMANDE QUI BUG SA RACE");
         String s = request.getParameter("statut");
         Statut statut = null;
         if(s.equals("En cours")){

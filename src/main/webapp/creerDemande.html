@@ -243,6 +243,7 @@
                 $(document).ready(function () {
                     // ajout d'un "handler" sur le clic du bouton de connexion
                     $('#defaultOpen').on('click', function () {
+                        console.log('Click sur le bouton "creer demande"');
                         showStuff2();
                     });
 
@@ -256,7 +257,6 @@
                     $('#bouton-consulter' ).on('click', function () {
                         console.log('Click sur le bouton "consulter"');
                         consultation();
-                        console.log('je sors de consultation');
                         showStuff2();
                     });
 
@@ -327,7 +327,6 @@
                         $('#nombreDeTache').append('Vous avez actuellement '+ demandes.length);
                         table.empty();
                         tab_EnCours = [];
-                        console.log(data);
                         $.each(demandes,function(i,di){
                             var formInput = '<th><button type="button"'+ 'class="btn btn-primary btn-lg"  id="bouton-' + di.id + '" onclick=cliqueEnCours("bouton-' + di.id + '")>' + '<label>'+ di.employePrenom + ' ' 
                                             + di.employeNom + '</label>' + '</br>' + '<label>'+ di.heure + '</label>' + '</button>  </th>';
@@ -412,7 +411,6 @@
                         },
                         dataType: 'json'
                     }).done(function (data) {
-                        console.log(data);
                         var table = $('#tableHistorique');
                         var demandes = data.demandes;
                         table.empty();

@@ -31,16 +31,12 @@ public class CreerDemandeAction extends Action {
         SimpleDateFormat sftDate = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = "";
         Date date = new Date();
-        System.out.println(date);
         try {
             dateString = sftDate.format(date) + " " + heureString;
-            System.out.println("C EST LA DATE STRING A PARSER");
-            System.out.println(dateString);
             date = sft.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(date);
         String clientMail = (String)request.getSession().getAttribute("login");
         Client client = serviceProActif.trouverClient(clientMail);
         DemandeIntervention di = null;
@@ -63,7 +59,6 @@ public class CreerDemandeAction extends Action {
             
             default : break;
         }
-        System.out.println(di);
         try {
             serviceProActif.creerDemande(di);
             request.setAttribute("employeDispo", true);
